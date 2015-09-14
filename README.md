@@ -15,3 +15,32 @@ Usage
 The usage is very simple. You just inherit from
 the class InterruptHandler and implement the method handleInterrupt(). 
 
+```cpp
+#include <InterruptHandler.h>
+
+// Inherit from InterruptHandler
+class MyLib : InterruptHandler {
+  byte inputPin;
+  unsigned long localState1;
+  unsigned long localState2;
+
+public:
+  MyLib(byte inputPin) : inputPin(pin) {}
+  
+  void begin() {
+    pinMode(inputPin, INPUT);
+    attachInterrupt(digitalPinToInterrupt(inputPin), CHANGE);
+  }
+
+  void stop() {
+    detachInterrupt(digitalPinToInterrupt(inputPin));
+  }
+
+  // Overwrite handleInterrupt() method
+  virtual void handleInterrupt(int8_t interruptNum) {
+    // Do something
+    localState1 = digitalRead(inputPin);
+    // ...
+  }
+};
+```
